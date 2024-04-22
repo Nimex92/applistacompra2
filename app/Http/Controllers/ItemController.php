@@ -33,12 +33,22 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         //Store the item
-        Item::create([
+        $item = Item::create([
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
             'category_id' => $request->category
         ]);
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            // Store image in storage public
+            $destinationPath = $request->file('image')->storeAs('public/img/items', $name);
+            // Ahora puedes guardar $name en tu base de datos si es necesario
+            $item->image = $name;
+            $item->save();
+        }
+        
 
         return redirect()->route('items');
     }

@@ -2,8 +2,27 @@ import axios from 'axios';
 import { showModal } from '../utils/modal';
 
 const createItemButton = document.querySelector('.create-item-button');
+const storeItemButton = document.querySelector('.store-item-button');
 const editItemButtons = document.querySelectorAll('.edit-item-button');
 const deleteItemButtons = document.querySelectorAll('.delete-item-button');
+
+storeItemButton.addEventListener('click', () => {
+    const name = document.getElementById('name').value;
+    const description = document.getElementById('description').value;
+    const price = document.getElementById('price').value;
+    const category = document.getElementById('category').value;
+    const image = document.getElementById('image').files[0];
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('description', description);
+    formData.append('price', price);
+    formData.append('category', category);
+    formData.append('image', image);
+    axios.post('/items', formData)
+    .then(response => {
+        window.location.reload();
+    });
+});
 
 editItemButtons.forEach(button => {
     button.addEventListener('click', () => {

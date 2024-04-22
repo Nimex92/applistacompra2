@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ShopListsController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -29,7 +30,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
     Route::post('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
     Route::post('/categories/{category}/delete', [CategoryController::class, 'destroy'])->name('categories.destroy');
-    
+
+    Route::get('/shoplists', [ShopListsController::class, 'index'])->name('shoplists');
+    Route::get('/shoplists/create', [ShopListsController::class, 'create'])->name('shoplists.create');
+    Route::post('/shoplists', [ShopListsController::class, 'store'])->name('shoplists.store');
+    Route::get('/shoplists/{shoplist}/edit', [ShopListsController::class, 'edit'])->name('shoplists.edit');
+    Route::post('/shoplists/{shoplist}', [ShopListsController::class, 'update'])->name('shoplists.update');
+    Route::delete('/shoplists/{shoplist}', [ShopListsController::class, 'destroy'])->name('shoplists.destroy');
 
     Route::get('/', function () {
         return view('dashboard');
